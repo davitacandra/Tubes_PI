@@ -3,6 +3,8 @@ const { body } = require('express-validator');
 const register = require('./controllers/regist');
 const login = require('./controllers/login');
 const getUser = require('./controllers/getUser');
+const updateUser = require('./controllers/updateUser');
+const deleteUser = require('./controllers/deleteUser');
 
 router.post(
   '/register',
@@ -30,5 +32,15 @@ router.post(
 );
 
 router.get('/getuser', getUser.getUser);
+
+router.put('/updateuser/:id',
+  [
+    body('nama_pelamar', "The name must be filled").notEmpty().escape().trim(),
+    body('email_pelamar', "Invalid email address").notEmpty().escape().trim().isEmail(),
+  ],
+  updateUser.updateUser
+);
+
+router.delete('/deleteuser/:id', deleteUser.deleteUser);
 
 module.exports = router;
