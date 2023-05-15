@@ -37,6 +37,12 @@ router.put('/updateuser/:id',
   [
     body('nama_pelamar', "The name must be filled").notEmpty().escape().trim(),
     body('email_pelamar', "Invalid email address").notEmpty().escape().trim().isEmail(),
+    body('telepon_pelamar', "The phone number must be filled").notEmpty().escape().trim(),
+    body('alamat_pelamar', "The phone number must be filled").notEmpty().escape().trim(),
+    body('kota_pelamar', "The city must be filled").notEmpty().escape().trim(),
+    body('provinsi_pelamar', "The province must be filled").notEmpty().escape().trim(),
+    body('kualifikasi_pelamar', "The qualification must be filled").notEmpty().escape().trim(),
+    body('pengalaman_kerja', "The experience must be filled").notEmpty().escape().trim(),
   ],
   updateUser.updateUser
 );

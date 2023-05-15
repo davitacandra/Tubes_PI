@@ -25,8 +25,8 @@ exports.updateUser = async (req, res, next) => {
   
       // Update user information
       const [rows] = await conn.execute(
-        'UPDATE `pelamar` SET `nama_pelamar`=?, `email_pelamar`=? WHERE `id`=?',
-        [req.body.nama_pelamar, req.body.email_pelamar, userId]
+        'UPDATE `pelamar` SET `nama_pelamar`=?, `email_pelamar`=?, `telepon_pelamar`=?, `alamat_pelamar`=?, `kota_pelamar`=?, `provinsi_pelamar`=?, `kualifikasi_pelamar`=?, `pengalaman_kerja`=? WHERE `id`=?',
+        [req.body.nama_pelamar, req.body.email_pelamar, req.body.telepon_pelamar, req.body.alamat_pelamar, req.body.kota_pelamar, req.body.provinsi_pelamar, req.body.kualifikasi_pelamar, req.body.pengalaman_kerja, userId]
       );
   
       if (rows.affectedRows === 1) {
