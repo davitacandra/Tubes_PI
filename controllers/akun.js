@@ -160,7 +160,6 @@ exports.updatePelamar = async (req, res, next) => {
   }
 };
 
-//Delete User
 // Delete User
 exports.deleteUser = async (req, res, next) => {
   try {
