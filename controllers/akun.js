@@ -161,6 +161,7 @@ exports.updatePelamar = async (req, res, next) => {
 };
 
 //Delete User
+// Delete User
 exports.deleteUser = async (req, res, next) => {
   try {
     // Retrieve the user's ID from the decoded token
@@ -169,10 +170,17 @@ exports.deleteUser = async (req, res, next) => {
 
     const { id } = req.params;
 
-    const [result] = await conn.execute(
-      'DELETE FROM `user` WHERE `id` = ?',
-      [id]
-    );
+    // Check if there are dependent records in the `pelamar` table
+    const [dependentRows] = await conn.execute('SELECT * FROM `pelamar` WHERE `id_user` = ?', [id]);
+
+    if (dependentRows.length > 0) {
+      // If there are dependent records, you can either delete them or update them as per your requirements
+      // Example: Delete the dependent records
+      await conn.execute('DELETE FROM `pelamar` WHERE `id_user` = ?', [id]);
+    }
+
+    // Proceed to delete the user from the `user` table
+    const [result] = await conn.execute('DELETE FROM `user` WHERE `id` = ?', [id]);
 
     if (result.affectedRows === 0) {
       return res.status(404).json({
