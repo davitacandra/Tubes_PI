@@ -42,7 +42,7 @@ exports.login = async (req, res, next) => {
     });
 
     const refreshToken = jwt.sign({ id: row[0].id }, 'the-super-strong-refresh-token-secrect', {
-      expiresIn: '1d',
+      expiresIn: '7d',
     });
 
     // Return the generated tokens in the response

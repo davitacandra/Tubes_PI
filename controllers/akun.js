@@ -72,7 +72,7 @@ exports.getUser = async (req, res, next) => {
     const decoded = jwt.verify(theToken, 'the-super-strong-secrect');
 
     const [row] = await conn.execute(
-      'SELECT `id`,`email` FROM `user` WHERE `id`=?',
+      'SELECT user.email, pelamar.telepon_pelamar, pelamar.alamat_pelamar, pelamar.kota_pelamar, pelamar.provinsi_pelamar, pelamar.kualifikasi_pelamar, pelamar.pengalaman_kerja FROM `user` INNER JOIN `pelamar` ON user.id = pelamar.id_user WHERE user.id = ?',
       [decoded.id]
     );
 
@@ -163,6 +163,16 @@ exports.updatePelamar = async (req, res, next) => {
 // Delete User
 exports.deleteUser = async (req, res, next) => {
   try {
+    if (
+      !req.headers.authorization ||
+      !req.headers.authorization.startsWith('Bearer') ||
+      !req.headers.authorization.split(' ')[1]
+    ) {
+      return res.status(422).json({
+        message: 'Please provide the token',
+      });
+    }
+
     // Retrieve the user's ID from the decoded token
     const decoded = jwt.verify(req.headers.authorization.split(' ')[1], 'the-super-strong-secrect');
     const userId = decoded.id;
